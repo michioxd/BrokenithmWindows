@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BrokenithmWindows (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "BrokenithmWindows (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

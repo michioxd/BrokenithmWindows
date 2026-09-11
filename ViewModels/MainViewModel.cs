@@ -154,8 +154,21 @@ public sealed class MainViewModel : ObservableObject
     private InputOptions Options =>
         new(EnableAir, SimpleAir, UseContactSize, FatThreshold, ExtraFatThreshold);
 
-    public string AppVersion =>
-        $"v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0"}";
+    public string AppVersion
+    {
+        get
+        {
+            try
+            {
+                var version = Windows.ApplicationModel.Package.Current.Id.Version;
+                return $"v{version.Major}.{version.Minor}.{version.Build}";
+            }
+            catch
+            {
+                return $"v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0"}";
+            }
+        }
+    }
 
     public MainViewModel(
         SettingsService settings,

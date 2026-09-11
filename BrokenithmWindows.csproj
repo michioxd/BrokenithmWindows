@@ -7,7 +7,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;ARM64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <PublishProfile Condition="'$(GenerateAppxPackageOnBuild)' != 'true' and '$(BuildingInsideVisualStudio)' != 'true'">win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <WinUISDKReferences>false</WinUISDKReferences>
     <EnableMsixTooling>true</EnableMsixTooling>
@@ -54,9 +54,29 @@
 
   <!-- Publish Properties -->
   <PropertyGroup>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug' or '$(RuntimeIdentifier)' == ''">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug' and '$(RuntimeIdentifier)' != ''">True</PublishReadyToRun>
+
     <PublishTrimmed>False</PublishTrimmed>
+
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+
+    <PackageCertificateThumbprint>372D17A30C19029C1D11CE1D34F5923C406663D3</PackageCertificateThumbprint>
+
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+
+    <AppxBundle>Auto</AppxBundle>
+
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+
+    <AppInstallerUri>C:\</AppInstallerUri>
+
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
 </Project>

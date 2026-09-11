@@ -15,7 +15,7 @@ public sealed class MainViewModel : ObservableObject
     public AsyncCommand SaveCommand { get; }
     public AsyncCommand CoinCommand { get; }
     public AsyncCommand CardCommand { get; }
-    private string _host = "",
+    private string _host = "127.0.0.1",
         _error = "",
         _status = "Disconnected",
         _diagnostics = "",

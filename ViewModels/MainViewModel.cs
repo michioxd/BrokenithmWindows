@@ -27,6 +27,7 @@ public sealed class MainViewModel : ObservableObject
     private bool _air = true,
         _simple,
         _size,
+        _splitTouchArea,
         _latency,
         _keepAwake = true,
         _card = true,
@@ -73,6 +74,15 @@ public sealed class MainViewModel : ObservableObject
         set
         {
             Set(ref _size, value);
+            ConfigureInput();
+        }
+    }
+    public bool SplitTouchArea
+    {
+        get => _splitTouchArea;
+        set
+        {
+            Set(ref _splitTouchArea, value);
             ConfigureInput();
         }
     }
@@ -152,7 +162,7 @@ public sealed class MainViewModel : ObservableObject
     private ConnectionStatus? _lastStatus;
     private int _requestVersion;
     private InputOptions Options =>
-        new(EnableAir, SimpleAir, UseContactSize, FatThreshold, ExtraFatThreshold);
+        new(EnableAir, SimpleAir, UseContactSize, FatThreshold, ExtraFatThreshold, SplitTouchArea);
 
     public string AppVersion
     {
@@ -260,6 +270,7 @@ public sealed class MainViewModel : ObservableObject
             EnableAir = config.Input.EnableAir;
             SimpleAir = config.Input.SimpleAir;
             UseContactSize = config.Input.UseContactSize;
+            SplitTouchArea = config.Input.SplitTouchArea;
             FatThreshold = config.Input.FatThreshold;
             ExtraFatThreshold = config.Input.ExtraFatThreshold;
             ShowLatency = config.ShowLatency;

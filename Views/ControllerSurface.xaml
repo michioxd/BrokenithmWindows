@@ -23,6 +23,13 @@
     <Grid Grid.Row="1" IsHitTestVisible="False">
       <Grid x:Name="LedStrip" />
       <Grid x:Name="SensorOverlay" />
+      <Border
+        x:Name="SplitDivider"
+        Height="1"
+        VerticalAlignment="Center"
+        Background="#222222"
+        Visibility="Collapsed"
+      />
     </Grid>
   </Grid>
 </UserControl>

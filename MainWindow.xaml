@@ -59,6 +59,45 @@
         VerticalAlignment="Center"
       >
         <Button
+          Command="{Binding ConnectCommand}"
+          IsEnabled="{Binding Editable}"
+          Background="Transparent"
+          BorderThickness="0"
+          Padding="8"
+          ToolTipService.ToolTip="Connect or reconnect"
+        >
+          <TextBlock Text="Connect" FontSize="12" Foreground="#A0A0A0" />
+        </Button>
+        <Button
+          Command="{Binding DisconnectCommand}"
+          Background="Transparent"
+          BorderThickness="0"
+          Padding="8"
+          ToolTipService.ToolTip="Disconnect"
+        >
+          <TextBlock Text="Disconnect" FontSize="12" Foreground="#A0A0A0" />
+        </Button>
+        <Button
+          Command="{Binding CoinCommand}"
+          IsEnabled="{Binding Active}"
+          Background="Transparent"
+          BorderThickness="0"
+          Padding="8"
+          ToolTipService.ToolTip="Insert coin"
+        >
+          <TextBlock Text="Coin" FontSize="12" Foreground="#A0A0A0" />
+        </Button>
+        <Button
+          Command="{Binding CardCommand}"
+          IsEnabled="{Binding Active}"
+          Background="Transparent"
+          BorderThickness="0"
+          Padding="8"
+          ToolTipService.ToolTip="Send card"
+        >
+          <TextBlock Text="Card" FontSize="12" Foreground="#A0A0A0" />
+        </Button>
+        <Button
           x:Name="ControlsButton"
           Click="ControlsButton_Click"
           Background="Transparent"

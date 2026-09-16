@@ -17,6 +17,7 @@ public sealed partial class ControllerSurface : UserControl
     private LedColor[]? _lastLeds;
     private uint _lastSensors = uint.MaxValue;
     private int _lastAir = -1;
+    private bool? _lastSplitTouchArea;
 
     public ControllerSurface()
     {
@@ -30,23 +31,20 @@ public sealed partial class ControllerSurface : UserControl
             Grid.SetColumn(led, i);
             LedStrip.Children.Add(led);
             _leds[i] = led;
-            SensorOverlay.ColumnDefinitions.Add(new());
             var sensor = new Border
             {
                 BorderBrush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 24)),
                 BorderThickness = new Thickness(0, 1, 1, 0),
             };
-            if (i % 2 == 0)
-                sensor.Child = new TextBlock
-                {
-                    Text = (i / 2 + 1).ToString(),
-                    Margin = new Thickness(4, 10, 0, 0),
-                    Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)),
-                };
-            Grid.SetColumn(sensor, i);
+            sensor.Child = new TextBlock
+            {
+                Margin = new Thickness(4, 10, 0, 0),
+                Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)),
+            };
             SensorOverlay.Children.Add(sensor);
             _sensors[i] = sensor;
         }
+        ConfigureSensorLayout(false);
         for (int i = 0; i < 6; i++)
         {
             AirBands.RowDefinitions.Add(new());
@@ -75,10 +73,22 @@ public sealed partial class ControllerSurface : UserControl
         _provider = null;
     }
 
-    public void Render(InputService input, LedColor[]? leds, bool airEnabled, int airHeight)
+    public void Render(
+        InputService input,
+        LedColor[]? leds,
+        bool airEnabled,
+        bool splitTouchArea,
+        int airHeight
+    )
     {
         AirRow.Height = new GridLength(airEnabled ? 3 : 0, GridUnitType.Star);
         AirVisual.Visibility = airEnabled ? Visibility.Visible : Visibility.Collapsed;
+        if (splitTouchArea != _lastSplitTouchArea)
+        {
+            _lastSplitTouchArea = splitTouchArea;
+            ConfigureSensorLayout(splitTouchArea);
+            SplitDivider.Visibility = splitTouchArea ? Visibility.Visible : Visibility.Collapsed;
+        }
         if (leds != _lastLeds)
         {
             _lastLeds = leds;
@@ -109,6 +119,29 @@ public sealed partial class ControllerSurface : UserControl
             for (int i = 0; i < 6; i++)
                 _bands[i].Background =
                     i >= airHeight ? new SolidColorBrush(Color.FromArgb(100, 80, 160, 255)) : null;
+        }
+    }
+
+    private void ConfigureSensorLayout(bool split)
+    {
+        SensorOverlay.ColumnDefinitions.Clear();
+        SensorOverlay.RowDefinitions.Clear();
+        int columns = split ? 16 : 32;
+        int rows = split ? 2 : 1;
+        for (int i = 0; i < columns; i++)
+            SensorOverlay.ColumnDefinitions.Add(new());
+        for (int i = 0; i < rows; i++)
+            SensorOverlay.RowDefinitions.Add(new());
+
+        for (int i = 0; i < _sensors.Length; i++)
+        {
+            Grid.SetColumn(_sensors[i], split ? i / 2 : i);
+            Grid.SetRow(_sensors[i], split ? (i + 1) % 2 : 0);
+            _sensors[i].BorderThickness = new Thickness(0, 1, 1, 0);
+            ((TextBlock)_sensors[i].Child).Text =
+                split ? (i / 2 + 1).ToString()
+                : i % 2 == 0 ? (i / 2 + 1).ToString()
+                : "";
         }
     }
 }

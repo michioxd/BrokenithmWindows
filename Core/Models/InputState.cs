@@ -17,5 +17,6 @@ public sealed record InputOptions(
     bool SimpleAir = false,
     bool UseContactSize = false,
     double FatThreshold = .027,
-    double ExtraFatThreshold = .035
+    double ExtraFatThreshold = .035,
+    bool SplitTouchArea = false
 );

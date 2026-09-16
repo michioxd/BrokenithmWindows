@@ -348,6 +348,15 @@
                     Maximum="1"
                     SmallChange="0.001"
                   />
+                  <ToggleSwitch
+                    Header="Split slider into upper/lower lanes"
+                    IsOn="{Binding SplitTouchArea, Mode=TwoWay}"
+                  />
+                  <TextBlock
+                    Text="Each half controls a separate sensor in the same column, so stacked touches remain independent."
+                    TextWrapping="Wrap"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                  />
                 </StackPanel>
               </Border>
               <Border

@@ -70,6 +70,7 @@ public sealed partial class MainPage : Page
             ViewModel.Input,
             ViewModel.Service.Leds,
             ViewModel.EnableAir,
+            ViewModel.SplitTouchArea,
             ViewModel.Active ? ViewModel.Service.AirHeight : ViewModel.Input.Snapshot.AirHeight
         );
         SetAwake(ViewModel.Active && ViewModel.KeepScreenOn);

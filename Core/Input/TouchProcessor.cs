@@ -8,6 +8,8 @@ public static class TouchProcessor
     {
         uint sensors = 0;
         int air = 6;
+        double sliderTop = options.EnableAir ? .375 : 0;
+        double sliderMiddle = (sliderTop + 1) / 2;
         for (int contact = 0; contact < contacts.Count; contact++)
         {
             var point = contacts[contact];
@@ -19,7 +21,8 @@ public static class TouchProcessor
                 air = Math.Min(air, options.SimpleAir ? 0 : height);
                 continue;
             }
-            SliderProcessor.AddContact(ref sensors, point.X, point.Size, options);
+            int? lane = options.SplitTouchArea ? (point.Y < sliderMiddle ? 1 : 0) : null;
+            SliderProcessor.AddContact(ref sensors, point.X, point.Size, options, lane);
         }
         return new(sensors, air);
     }
